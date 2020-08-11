@@ -1,7 +1,29 @@
 [package]
 name = "i3-workspace-brightness"
-version = "0.1.0"
+version = "1.0.0"
+description = "Utility to auto-adjust the brightness of i3wm workspaces"
 authors = ["orhun <orhunparmaksiz@gmail.com>"]
+license = "GPL-3.0"
+readme = "README.md"
+documentation = "https://github.com/orhun/i3-workspace-brightness/blob/master/README.md"
+homepage = "https://github.com/orhun/i3-workspace-brightness"
+repository = "https://github.com/orhun/i3-workspace-brightness"
+keywords = ["i3", "workspace", "tiling", "wm", "brightness"]
+categories = ["command-line-utilities", "os"]
 edition = "2018"
 
 [dependencies]
+i3ipc = "0.10.1"
+hashbrown = "0.8.2"
+
+[profile.dev]
+opt-level = 0
+debug = true
+panic = "abort"
+
+[profile.release]
+opt-level = 3
+debug = false
+panic = "abort"
+lto = true
+codegen-units = 1
