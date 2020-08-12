@@ -7,14 +7,6 @@ use std::env;
 use std::error::Error;
 use std::process::Command;
 
-fn execute(cmd: &str, args: &[&str]) -> Result<String, Box<dyn Error>> {
-    Ok(
-        String::from_utf8_lossy(&Command::new(cmd).args(args).output()?.stdout)
-            .trim()
-            .to_string(),
-    )
-}
-
 fn main() -> Result<(), Box<dyn Error>> {
     let mut listener = I3EventListener::connect().expect("Could not connect to i3wm");
     listener.subscribe(&[Subscription::Workspace])?;
@@ -25,16 +17,22 @@ fn main() -> Result<(), Box<dyn Error>> {
     );
     for event in listener.listen() {
         if let Event::WorkspaceEvent(e) = event? {
-            let brightness = execute("sh", &["-c", &get_brightness])?.parse()?;
+            let brightness = String::from_utf8_lossy(
+                &Command::new("sh")
+                    .args(&["-c", &get_brightness])
+                    .output()?
+                    .stdout,
+            )
+            .trim()
+            .parse()?;
             if let Some(old) = e.old {
                 workspaces.insert(old.id, brightness);
             }
             if let Some(current) = e.current {
                 if let Some(level) = workspaces.get(&current.id) {
-                    execute(
-                        "sh",
-                        &["-c", &set_brightness.replace("{}", &level.to_string())],
-                    )?;
+                    Command::new("sh")
+                        .args(&["-c", &set_brightness.replace("{}", &level.to_string())])
+                        .spawn()?;
                 }
             }
         }

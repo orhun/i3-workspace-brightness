@@ -1,6 +1,6 @@
 [package]
 name = "i3-workspace-brightness"
-version = "1.0.0"
+version = "1.0.1"
 description = "Utility to auto-adjust the brightness of i3wm workspaces"
 authors = ["orhun <orhunparmaksiz@gmail.com>"]
 license = "GPL-3.0"
