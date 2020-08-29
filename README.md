@@ -4,7 +4,7 @@
 
 ## About
 
-Rust port of [this](https://gist.github.com/vaibhav93/20500065786327e55c2f438a3922a7ae) Python script.
+Rust port of [this](https://gist.github.com/vaibhav93/20500065786327e55c2f438a3922a7ae) Python script with a few improvements.
 
 It allows individual brightness levels for each workspace and changes the brightness automatically while switching between them.
 
