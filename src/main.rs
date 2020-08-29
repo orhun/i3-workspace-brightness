@@ -32,7 +32,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if let Some(level) = workspaces.get(&current.id) {
                     Command::new("sh")
                         .args(&["-c", &set_brightness.replace("{}", &level.to_string())])
-                        .spawn()?;
+                        .spawn()?
+                        .wait()?;
                 }
             }
         }
