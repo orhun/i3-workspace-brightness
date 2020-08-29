@@ -1,5 +1,6 @@
 extern crate i3ipc;
 use hashbrown::HashMap;
+use i3ipc::event::inner::WorkspaceChange;
 use i3ipc::event::Event;
 use i3ipc::I3EventListener;
 use i3ipc::Subscription;
@@ -17,23 +18,25 @@ fn main() -> Result<(), Box<dyn Error>> {
     );
     for event in listener.listen() {
         if let Event::WorkspaceEvent(e) = event? {
-            let brightness = String::from_utf8_lossy(
-                &Command::new("sh")
-                    .args(&["-c", &get_brightness])
-                    .output()?
-                    .stdout,
-            )
-            .trim()
-            .parse()?;
-            if let Some(old) = e.old {
-                workspaces.insert(old.id, brightness);
-            }
-            if let Some(current) = e.current {
-                if let Some(level) = workspaces.get(&current.id) {
-                    Command::new("sh")
-                        .args(&["-c", &set_brightness.replace("{}", &level.to_string())])
-                        .spawn()?
-                        .wait()?;
+            if e.change == WorkspaceChange::Focus {
+                let brightness = String::from_utf8_lossy(
+                    &Command::new("sh")
+                        .args(&["-c", &get_brightness])
+                        .output()?
+                        .stdout,
+                )
+                .trim()
+                .parse()?;
+                if let Some(old) = e.old {
+                    workspaces.insert(old.id, brightness);
+                }
+                if let Some(current) = e.current {
+                    if let Some(level) = workspaces.get(&current.id) {
+                        Command::new("sh")
+                            .args(&["-c", &set_brightness.replace("{}", &level.to_string())])
+                            .spawn()?
+                            .wait()?;
+                    }
                 }
             }
         }
