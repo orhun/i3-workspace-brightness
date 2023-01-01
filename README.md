@@ -19,7 +19,7 @@ cargo install i3-workspace-brightness
 ### AUR
 
 ```
-yay -S i3-workspace-brightness
+paru -S i3-workspace-brightness
 ```
 
 ## Configuration
