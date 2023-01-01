@@ -14,7 +14,7 @@ edition = "2021"
 
 [dependencies]
 i3ipc = "0.10.1"
-hashbrown = "0.8.2"
+hashbrown = "0.13.1"
 
 [profile.dev]
 opt-level = 0
