@@ -36,7 +36,7 @@ dependencies = [
 
 [[package]]
 name = "i3-workspace-brightness"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "hashbrown",
  "i3ipc",
