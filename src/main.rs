@@ -21,7 +21,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             if e.change == WorkspaceChange::Focus {
                 let brightness = String::from_utf8_lossy(
                     &Command::new("sh")
-                        .args(&["-c", &get_brightness])
+                        .args(["-c", &get_brightness])
                         .output()?
                         .stdout,
                 )
@@ -33,7 +33,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if let Some(current) = e.current {
                     if let Some(level) = workspaces.get(&current.id) {
                         Command::new("sh")
-                            .args(&["-c", &set_brightness.replace("{}", &level.to_string())])
+                            .args(["-c", &set_brightness.replace("{}", &level.to_string())])
                             .spawn()?
                             .wait()?;
                     }
